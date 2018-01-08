@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import seeds from './seeds.js'
+import Toolbar from './componets/toolbar.js'
+import AddMessageForm from './componets/addmessage.js'
+import MessageList from './componets/messages.js'
+export default class App extends Component {
 
-class App extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+      messages: seeds,
+      toolbar: {
+        selected:'none'
+      }
+    }
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <main>
+        <Toolbar selected={this.state.toolbar.selected}/>
+        <AddMessageForm onAddMessage={this.onAddMessage}/>
+        <MessageList title="To Do" messages={this.state.messages} />
+     </main>
     );
   }
 }
-
-export default App;
