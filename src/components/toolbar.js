@@ -6,30 +6,46 @@ export default class Toolbar extends Component{
     this.onClick = this.onClick.bind(this)
   }
   onClick(e){
+    let method='PATCH';
     let sumUnread=0;
     let sumUnselected=0;
+    let body={}
     let messages = this.props.messages.map(message=>{
       return {...message}
     })
     if(e.target.name==='markRead'){
-      messages.map((message)=>{
+      body.messageIds=[]
+      body.command='read'
+      body.read=true
+      messages.map((message,i)=>{
         if (message.selected) {
           message.read=true
+          body.messageIds.push(i+1)
         }
         return message;
       })
+      this.props.componentMount(body,method);
     }else if (e.target.name==='markUnread') {
-      messages.map((message)=>{
+      body.messageIds=[]
+      body.command='read'
+      body.read=false
+      messages.map((message,i)=>{
         if (message.selected) {
           message.read=false
+          body.messageIds.push(i+1)
         }
         return message;
       })
+      this.props.componentMount(body,method);
     }else if (e.target.name==='label') {
-
+      body.messageIds=[]
+      body.command='addLabel'
+      body.label=e.target.value
       for (let i = 0; i < messages.length; i++) {
         if(messages[i].selected){
           let exists=false
+          body.messageIds.push(i+1)
+          console.log(messages[i].labels);
           for (let j = 0; j < messages[i].labels.length; j++) {
             if(messages[i].labels[j]===e.target.value){
               exists=true
@@ -37,12 +53,18 @@ export default class Toolbar extends Component{
           }
           if (!exists) {
             messages[i].labels.push(e.target.value)
+            console.log(body);
+            this.props.componentMount(body,method);
           }
         }
       }
     }else if(e.target.name==='unlabel'){
+      body.messageIds=[]
+      body.command='removeLabel'
+      body.label=e.target.value
       for (let i = 0; i < messages.length; i++) {
         if(messages[i].selected){
+          body.messageIds.push(i+1)
           for (let j = 0; j < messages[i].labels.length; j++) {
             if(messages[i].labels[j]===e.target.value){
               messages[i].labels.splice(j,1)
@@ -50,14 +72,20 @@ export default class Toolbar extends Component{
           }
         }
       }
+      this.props.componentMount(body,method);
     }else if (e.target.title==='delete') {
+      body.messageIds=[]
+      body.command='delete'
       let result=[]
       for (let i = 0; i < messages.length; i++) {
         if(!messages[i].selected){
           result.push(messages[i])
+        }else{
+          body.messageIds.push(i+1)
         }
       }
       messages=result
+      this.props.componentMount(body,method);
     }else if (e.target.title==='add') {
       let newCompose=this.props.compose ? false:true
       this.props.updateCompose(newCompose)

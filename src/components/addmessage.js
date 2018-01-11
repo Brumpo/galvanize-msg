@@ -1,21 +1,23 @@
 import React from 'react';
 
 export default class AddMessageForm extends React.Component{
-  // constructor(props) {
-  //   super(props)
-  // }
+  constructor(props) {
+    super(props)
+    this.onSubmit=this.onSubmit.bind(this)
+  }
 
-  // onSubmit(e) {
-  //   e.preventDefault()
-  //   this.props.onAddMessage({
-  //     subject:this.refs.subject.value,
-  //     })
-  // }
+  onSubmit(e) {
+    e.preventDefault()
+    this.props.componentMount({
+      subject:this.refs.subject.value,
+      body:this.refs.body.value
+    },'POST')
+  }
 
 
   render(){
     return(
-    <form className="form-horizontal well" >
+    <form className="form-horizontal well" onSubmit={this.onSubmit}>
       <div className="form-group">
         <div className="col-sm-8 col-sm-offset-2">
           <h4>Compose Message</h4>

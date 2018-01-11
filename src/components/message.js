@@ -4,17 +4,33 @@ export default class MessageList extends Component{
   constructor(props) {
     super(props)
     this.onClick = this.onClick.bind(this)
+    this.body= ''
   }
-  onClick(e){
+  async onClick(e){
+    let method = 'PATCH'
+    let body={}
     let message={...this.props.content};
-    console.log(e.target);
     if(e.target.type==='checkbox'){
       message.selected= this.props.content.selected ? false:true;
     }else if (e.target.type==='body') {
-      message.read= this.props.content.read ? false:true;
+      console.log('read');
+      body.messageIds = [this.props.content.id]
+      body.command= 'read'
+      body.read= this.props.content.read ? false:true;
+      message.read = this.props.content.read ? false:true;
+      this.props.componentMount(body,method)
+      this.props.closeAll(this.props.content.id)
+      this.body= await this.props.getMessageId(this.props.content.id)
+      console.log(this.body);
     }else {
-      message.starred= this.props.content.starred ? false:true;
+      console.log(this.props.content.id);
+      body.messageIds = [this.props.content.id]
+      body.command= 'star'
+      body.star= this.props.content.starred ? false:true;
+      message.starred = this.props.content.starred ? false:true;
+      this.props.componentMount(body,method)
     }
+    console.log(body,method);
     this.props.updateState(message)
   }
   render(){
@@ -27,6 +43,7 @@ export default class MessageList extends Component{
     if(this.props.content.selected){selected='selected'}
     if(this.props.content.selected){checked='checked'}
     return (
+      <div>
       <div className={`row message ${read} ${selected}`}>
         <div className="col-xs-1">
           <div className="row">
@@ -46,6 +63,8 @@ export default class MessageList extends Component{
             {this.props.content.subject}
           </a>
         </div>
+      </div>
+      {this.props.expanded===this.props.content.id?<div class="row message-body"><div class="col-xs-11 col-xs-offset-1">{this.body}</div></div>:null}
       </div>
     )
   }
