@@ -17,11 +17,15 @@ export default class MessageList extends Component{
       body.messageIds = [this.props.content.id]
       body.command= 'read'
       body.read= this.props.content.read ? false:true;
+      if(this.props.expanded===this.props.content.id){
+        this.props.closeAll(0)
+      }else {
       message.read = this.props.content.read ? false:true;
       this.props.componentMount(body,method)
       this.props.closeAll(this.props.content.id)
       this.body= await this.props.getMessageId(this.props.content.id)
       console.log(this.body);
+    }
     }else {
       console.log(this.props.content.id);
       body.messageIds = [this.props.content.id]

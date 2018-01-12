@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Router } from 'react-router-dom'
 
 export default class Toolbar extends Component{
   constructor(props) {
@@ -132,6 +133,7 @@ export default class Toolbar extends Component{
     }
 
       return (
+        <Router>
         <div className="row toolbar">
           <div className="col-md-12">
             <p className="pull-right">
@@ -170,6 +172,8 @@ export default class Toolbar extends Component{
             </button>
           </div>
         </div>
+        <>
+        </Router>
       )
     }
 }

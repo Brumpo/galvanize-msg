@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Router } from 'react-router-dom'
 import './App.css';
 import seeds from './seeds.js'
 import Toolbar from './components/toolbar.js'
@@ -89,11 +90,13 @@ export default class App extends Component {
   }
   render() {
     return (
-      <main>
-        <Toolbar messages={this.state.messages} compose={this.state.compose} updateState={this.updateState} updateCompose={this.updateCompose} componentMount={this.componentMount}/>
-        {this.state.compose?<AddMessageForm componentMount={this.componentMount}/>:null}
-        <MessageList messages={this.state.messages} updateState={this.updateState} componentMount={this.componentMount} getMessageId={this.getMessageId} closeAll={this.closeAll} expanded={this.state.expanded}/>
-     </main>
+      <Router>
+        <main>
+          <Toolbar messages={this.state.messages} compose={this.state.compose} updateState={this.updateState} updateCompose={this.updateCompose} componentMount={this.componentMount}/>
+          {this.state.compose?<AddMessageForm componentMount={this.componentMount}/>:null}
+          <MessageList messages={this.state.messages} updateState={this.updateState} componentMount={this.componentMount} getMessageId={this.getMessageId} closeAll={this.closeAll} expanded={this.state.expanded}/>
+        </main>
+      </Router>
     );
   }
 }
