@@ -1,4 +1,8 @@
 import React from 'react';
+import {BrowserRouter as Router,
+Route,
+Link
+} from 'react-router-dom'
 
 export default class AddMessageForm extends React.Component{
   constructor(props) {
@@ -6,9 +10,10 @@ export default class AddMessageForm extends React.Component{
     this.onSubmit=this.onSubmit.bind(this)
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
+    console.log('sad');
     e.preventDefault()
-    this.props.componentMount({
+      this.props.componentMount({
       subject:this.refs.subject.value,
       body:this.refs.body.value
     },'POST')
@@ -37,7 +42,7 @@ export default class AddMessageForm extends React.Component{
       </div>
       <div className="form-group">
         <div className="col-sm-8 col-sm-offset-2">
-          <input type="submit" value="Send" className="btn btn-primary"/>
+          <Link to='/'><input type="submit" value="Send" className="btn btn-primary"/></Link>
         </div>
       </div>
     </form>

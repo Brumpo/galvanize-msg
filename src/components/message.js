@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import {BrowserRouter as Router,
+Route,
+Link
+} from 'react-router-dom'
 
 export default class MessageList extends Component{
   constructor(props) {
@@ -47,6 +51,7 @@ export default class MessageList extends Component{
     if(this.props.content.selected){selected='selected'}
     if(this.props.content.selected){checked='checked'}
     return (
+      <Router>
       <div>
       <div className={`row message ${read} ${selected}`}>
         <div className="col-xs-1">
@@ -63,13 +68,17 @@ export default class MessageList extends Component{
           {this.props.content.labels.map((label)=>{
             return <span className="label label-warning">{label}</span>
           })}
-          <a onClick={this.onClick} type='body'>
+          <Link to={`/messages/${this.props.content.id}`} onClick={this.onClick} type='body'>
             {this.props.content.subject}
-          </a>
+          </Link>
         </div>
       </div>
-      {this.props.expanded===this.props.content.id?<div class="row message-body"><div class="col-xs-11 col-xs-offset-1">{this.body}</div></div>:null}
+      <Route path={`/messages/${this.props.content.id}`} render={()=>(
+      this.props.expanded===this.props.content.id?<div className="row message-body"><div className="col-xs-11 col-xs-offset-1">{this.body}</div></div>:null
+      )}/>
       </div>
+      </Router>
+
     )
   }
 }

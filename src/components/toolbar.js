@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Router } from 'react-router-dom'
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+import AddMessage from './addmessage'
 
 export default class Toolbar extends Component{
   constructor(props) {
@@ -133,7 +139,7 @@ export default class Toolbar extends Component{
     }
 
       return (
-        <Router>
+        <div>
         <div className="row toolbar">
           <div className="col-md-12">
             <p className="pull-right">
@@ -141,9 +147,9 @@ export default class Toolbar extends Component{
                 unread messages
             </p>
 
-            <a className="btn btn-danger" title='add' onClick={this.onClick}>
+            <Link to={this.props.compose ? '/compose' : '/'} className="btn btn-danger" title='add' onClick={this.onClick}>
               <i title='add' className="fa fa-plus"></i>
-            </a>
+            </Link>
 
             <button className="btn btn-default" onClick={this.onClick}>
               <i className={`fa ${selected}`} ></i>
@@ -172,8 +178,10 @@ export default class Toolbar extends Component{
             </button>
           </div>
         </div>
-        <>
-        </Router>
+        </div>
       )
     }
 }
+// <Router>
+// <Route path='/compose' Component={AddMessage}/>
+// </Router>

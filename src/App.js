@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Router } from 'react-router-dom'
+import {BrowserRouter as Router,
+Route,
+Link
+} from 'react-router-dom'
 import './App.css';
 import seeds from './seeds.js'
 import Toolbar from './components/toolbar.js'
@@ -90,13 +93,25 @@ export default class App extends Component {
   }
   render() {
     return (
-      <Router>
         <main>
+        <Router>
+        <div>
+          <Route path='/' exact render={()=>{return (
+            <div>
+            <Toolbar messages={this.state.messages} compose={this.state.compose} updateState={this.updateState} updateCompose={this.updateCompose} componentMount={this.componentMount}/>
+            <MessageList messages={this.state.messages} updateState={this.updateState} componentMount={this.componentMount} getMessageId={this.getMessageId} closeAll={this.closeAll} expanded={this.state.expanded}/>
+            </div>
+          )}}/>
+          <Route path='/compose'   render={() => (
+          <div>
           <Toolbar messages={this.state.messages} compose={this.state.compose} updateState={this.updateState} updateCompose={this.updateCompose} componentMount={this.componentMount}/>
-          {this.state.compose?<AddMessageForm componentMount={this.componentMount}/>:null}
+          <AddMessageForm  componentMount={this.componentMount}/>
           <MessageList messages={this.state.messages} updateState={this.updateState} componentMount={this.componentMount} getMessageId={this.getMessageId} closeAll={this.closeAll} expanded={this.state.expanded}/>
+          </div>
+            )}/>
+          </div >
+        </Router>
         </main>
-      </Router>
     );
   }
 }
